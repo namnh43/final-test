@@ -58,6 +58,9 @@ public class Menu {
                 case 5 -> {//sorting
                     sortingStudent();
                 }
+                case 6 -> {
+                    readFile.readFile();
+                }
                 case 7 -> {//write file
                     System.out.println("Cập nhật file (y/n)");
                     String select = scanner.next();
