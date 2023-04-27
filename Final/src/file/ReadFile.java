@@ -17,13 +17,12 @@ public class ReadFile {
             //empty student list
             StudentManager.getInstance().getStudentList().clear();
             while ((currentLine = reader.readLine()) != null) {
-                System.out.println(currentLine);
                 String data[] = currentLine.split(",");
 //                System.out.println(Arrays.toString(data));
                 Student student = new Student(data[1],data[2],Integer.parseInt(data[3]),Boolean.parseBoolean(data[4]),data[5],Double.parseDouble(data[6]));
                 StudentManager.getInstance().addStudent(student);
-                StudentManager.getInstance().display();
             }
+            StudentManager.getInstance().display();
 
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
