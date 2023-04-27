@@ -1,0 +1,8 @@
+index,id,name,age,sex,address,score
+0,SV1,Sơn,30,false,HàNam,2.0
+1,SV2,Nam,33,false,HàNội,3.0
+2,SV3,Hùng,25,false,HàTây,4.0
+3,SV4,Nam,26,false,SócSơn,5.0
+4,SV5,Chung,28,false,NamĐịnh,6.0
+5,SV6,Hiếu,23,false,HàNam,7.0
+6,SV7,Công,27,false,NinhBình,8.0

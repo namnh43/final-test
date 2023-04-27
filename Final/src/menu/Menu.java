@@ -1,5 +1,7 @@
 package menu;
 
+import file.ReadFile;
+import file.WriteFile;
 import student.Student;
 import student.StudentManager;
 
@@ -9,7 +11,15 @@ public class Menu {
     public final String[] menus = {"Xem danh sách sinh viên", "Thêm mới", "Cập nhật", "Xóa", "Sắp xếp", "Đọc từ file","Ghi vào file", "Thoát"};
     public final String[] menusAdd = {"Mã sinh viên", "Họ tên", "Tuổi","Giới tính", "Địa chỉ", "Điểm trung bình"};
     public final String[] display5Student = {"Lựa chọn \"Thêm mới\"", "Hiển thị 5 sinh viên"};
-    public final String[] menuSorting = {"Sắp xếp điểm trung bình tăng dần"}
+    public final String[] menuSorting = {"Sắp xếp điểm trung bình tăng dần","Sắp xếp điểm trung bình giảm dần","Thoát"};
+    private WriteFile writeFile;
+    private ReadFile readFile;
+
+    public Menu() {
+        writeFile = new WriteFile();
+        readFile = new ReadFile();
+    }
+
     public void display(){
         Scanner scanner = new Scanner(System.in);
         boolean exit = false;
@@ -19,7 +29,6 @@ public class Menu {
             }
             System.out.println("Chọn chức năng:");
             int choosen = scanner.nextInt();
-            System.out.println(choosen);
             switch (choosen) {
                 case 1 -> {
                     System.out.println("Mời lựa chọn:");
@@ -47,6 +56,14 @@ public class Menu {
                     deleteStudent();
                 }
                 case 5 -> {//sorting
+                    sortingStudent();
+                }
+                case 7 -> {//write file
+                    System.out.println("Cập nhật file (y/n)");
+                    String select = scanner.next();
+                    if (select.equals("y")) {
+                        writeFile.writeToFile();
+                    }
 
                 }
                 case 8 -> {
@@ -99,11 +116,13 @@ public class Menu {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Nhập vào mã sinh viên cần chỉnh sửa");
         String id = scanner.next();
-        Student student = StudentManager.getInstance().search(id);
-        if (student != null) {
+        int index = StudentManager.getInstance().searchAndReturnIndex(id);
+        if (index != -1) {
             //edit
             Student editStudent = addOneStudent();
-            student = editStudent;
+            System.out.println(editStudent);
+            StudentManager.getInstance().getStudentList().set(index, editStudent);
+            StudentManager.getInstance().display();
         } else {
             System.out.println("Không tìm được sinh viên với mã sinh viên trên");
         }
@@ -117,14 +136,42 @@ public class Menu {
             //remove student
             System.out.println("Are you sure(y/n)");
             String select = scanner.next();
-            if (select.equals('y')) {
+            if (select.equals("y")) {
                 StudentManager.getInstance().getStudentList().remove(index);
+                System.out.println("Xóa thành công!");
             } else {
                 //return
+                System.out.println("Không thành công");
             }
 
         }else {
             System.out.println("Không tìm được sinh viên với mã sinh viên trên");
+        }
+    }
+
+    public void sortingStudent() {
+        Scanner scanner = new Scanner(System.in);
+        boolean notFinish = true;
+        while (notFinish) {
+            for (int index = 1; index <= menuSorting.length; index++) {
+                System.out.println(index+". "+menuSorting[index-1]);
+            }
+            System.out.println("Chọn chức năng:");
+            int select = scanner.nextInt();
+
+            switch (select) {
+                case 1 -> {
+                    StudentManager.getInstance().sorting(true);
+                    StudentManager.getInstance().display();
+                }
+                case 2 -> {
+                    StudentManager.getInstance().sorting(false);
+                    StudentManager.getInstance().display();
+                }
+                case 3 -> {
+                    notFinish = false;
+                }
+            }
         }
     }
 }
