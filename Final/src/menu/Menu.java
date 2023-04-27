@@ -37,7 +37,10 @@ public class Menu {
                     }
                     int select = scanner.nextInt();
                     if (select == 0) {
-                        addOneStudent();
+                        Student student = addOneStudent();
+                        if (student != null) {
+                            StudentManager.getInstance().addStudent(student);
+                        }
                     }else if (select == 1) {
                         displayFiveStudent();
                     }
